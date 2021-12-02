@@ -1,0 +1,28 @@
+"TWO"
+
+OP_VAL  EQU 0AH
+WAIT    EQU 0FH
+; Be sure to set the input B register to 1
+        ORG (OP_VAL*16)+1 ; force correct microaddress
+
+        A_SOURCE=TA, CIN=YES, ALU_FUNC=A_PLUS_C, ALU_DEST=B, END_S ; store 1 in TB
+        
+
+CHECK_IF_ZERO
+        MICRO_AD=FINALIZE_RESULT, BOP=BRZ, A_SOURCE=IA, ALU_SOURCE=A ; check if A is 0
+
+        A_SOURCE=IA, ALU_FUNC=A, ALU_DEST=A, END_S ; move IA value to A register
+
+DOUBLE_IA
+        MICRO_AD=TOGGLE_PARITY_BIT, BOP=C8, A_SOURCE=TA, ; double input (left shift 1)
+        ALU_FUNC=A_PLUS_A_PLUS_C, ALU_DEST=A, END_S
+
+TOGGLE_PARITY_BIT
+        MICRO_AD=DOUBLE_IA, COUNT=COUNT, BOP=BRA, A_SOURCE=TA, B_SOURCE=TB,
+        ALU_FUNC=A_XOR_B, 
+
+FINALIZE_RESULT
+        B_SOURCE=TB, ALU_FUNC=B, ALU_DEST=F, END_S
+
+END_UPROGRAM
+        COUNT=NO_COUNT, BOP=NOT_GO, MICRO_AD=WAIT, END_S ; finish microroutine

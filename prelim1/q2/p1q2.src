@@ -1,0 +1,32 @@
+"TWO"
+
+OP_VAL  EQU 0AH
+WAIT    EQU 0FH
+        
+        ORG (OP_VAL*16)+1 ; force correct microaddress
+
+UPRO_START
+        ALU_FUNC=CLEAR, ALU_DEST=B, END_S ; store all 1s in TB
+        A_SOURCE=IA, ALU_FUNC=A, ALU_DEST=A, END_S ; move IA to TA
+
+CHECK_RESULT
+        MICRO_AD=FINALIZE_RESULT, BOP=Z, A_SOURCE=TA, ; check if TA is 0
+        ALU_FUNC=A, END_S
+
+DOUBLE_IA
+        MICRO_AD=TOGGLE_PARITY, BOP=C8, A_SOURCE=TA, ; double TA
+        ALU_FUNC=A_PLUS_A_PLUS_C, ALU_DEST=A, END_S ;
+        
+        MICRO_AD=CHECK_RESULT, BOP=BRA, END_S ; check the result
+
+TOGGLE_PARITY
+        MICRO_AD=DOUBLE_IA, BOP=BRA, B_SOURCE=TB, ; invert and store TB
+        ALU_FUNC=NOT_B, ALU_DEST=B, END_S
+
+FINALIZE_RESULT
+        A_SOURCE=TA, B_SOURCE=TB, ALU_FUNC=A_PLUS_B_PLUS_C, ; put result in F
+        CIN=YES, ALU_DEST=F, END_S
+
+        ;MICRO_AD=UPRO_START, BOP=BRA, END_S ; go back to the beginning
+END_UPROGRAM
+        COUNT=NO_COUNT, BOP=NOT_GO, MICRO_AD=WAIT, END_S ; finish microroutine

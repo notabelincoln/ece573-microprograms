@@ -1,0 +1,7 @@
+"ONE"
+START   ; Initial state (0b1111)
+        DATA=15, BOP=BRC, ADDRESS=START, POL=TRUE, END_S
+        DATA=14, END_S
+        DATA=12, END_S
+        DATA=8, END_S
+        DATA=0, BOP=BRA, ADDRESS=START, END_S
