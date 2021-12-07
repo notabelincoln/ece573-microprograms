@@ -1,0 +1,19 @@
+"THREE"
+
+; Attempts to provide a functioning decsp (decrement sp) function to be used in
+; assembly language or something
+
+FETCH	EQU	0FH ; Go to the 
+	ORG 022H
+
+CHECKSPL
+	; Check if SPL is 0 to determine if SPH needs to be decremented by 1
+	MICRO_AD=DECSPL, BOP=NOT_Z, ALU_SOURCE=SPL, ALU_FUNC=A, END_S
+
+	; Decrement SPH by 1 if SPL is 0 
+	ALU_SOURCE=SPH, ALU_DEST=SPH, ALU_FUNC=A_MINUS_ONE_PLUS_C, END_S
+
+DECSPL
+	; Decrement SPL by 1, fetch the next OPCODE
+	MICRO_AD=FETCH, BOP=BRA, ALU_SOURCE=SPL, ALU_DEST=SPL,
+	ALU_FUNC=A_MINUS_ONE_PLUS_C, END_S

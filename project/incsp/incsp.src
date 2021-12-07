@@ -1,0 +1,21 @@
+
+"THREE"
+
+; Attempts to provide a functioning incsp (increment sp) function to be used in
+; assembly language
+
+FETCH	EQU	0FH ; Go to the 
+	ORG 022H
+
+INCSPL
+	; Check if SPL is 0xff to determine if SPH needs to be incremented by 1
+	MICRO_AD=GO_ON, BOP=NOT_Z, ALU_SOURCE=SPL, ALU_DEST=SPL,
+	ALU_FUNC=A_PLUS_C, CIN=YES, END_S
+
+INCSPH
+	; Decrement SPH by 1 if SPL is 0 
+	ALU_SOURCE=SPH, ALU_DEST=SPH, ALU_FUNC=A_PLUS_C, END_S
+
+GO_ON
+	; Decrement SPL by 1, fetch the next OPCODE
+	MICRO_AD=FETCH, BOP=BRA END_S
