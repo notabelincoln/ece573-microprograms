@@ -1,0 +1,17 @@
+"TWO"
+
+; Implements a startup routine form the book
+
+	ORG 0
+
+RESET
+	ALU_FUNC=PRESET, ALU_DEST=F, BOP=BRA, MICRO_AD=RES2, END_S
+
+RES2	ORG 0EH
+
+	ALU_FUNC=CLEAR, ALU_DEST=A_B, END_S
+
+WAIT
+	BOP=NOT_GO, MICRO_AD=WAIT, END_S
+
+	BOP=OP, MICRO_AD=1, END_S
