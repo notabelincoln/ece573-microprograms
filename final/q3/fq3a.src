@@ -4,7 +4,6 @@ OP_PUSHA	EQU 07H
 OP_POPA		EQU 08H
 OP_LDAA		EQU 01H
 OP_BRA		EQU 04H
-nop		equ 00h
 
 ; Reset code taken from figure 6.3a in book
 
