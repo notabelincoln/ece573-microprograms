@@ -1,0 +1,14 @@
+"THREE"
+
+; Load A Immediate (ldaa)
+; Code taken from figure 6.5 in book
+
+DECODE	EQU 10H
+
+
+	ORG 011H
+
+LDA_IMM
+	ALU_FUNC=B, ALU_DEST=ACC, EN_SR=EN_SR, AD_BUS=PC, R_W=READ, VMA=VMA,
+	INC_PC=INC, BOP=BRA, MICRO_AD=DECODE, END_S
+
