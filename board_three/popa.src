@@ -1,5 +1,6 @@
 "THREE"
 
+; Pop A (popa)
 ; Code taken from figure 6.12 in book
 
 FETCH	EQU 0FH

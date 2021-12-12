@@ -1,6 +1,7 @@
 "THREE"
 
-; PUSHA taken from 6.11 in book
+; Push A (pusha)
+; Taken from figure 6.11 in book
 
 	ORG 071H
 
